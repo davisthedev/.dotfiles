@@ -113,6 +113,7 @@ alias vi="lvim"
 alias vim="lvim"
 
 export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:$HOME/go/bin
 export PATH=$PATH:/.cargo/bin
 
 export PATH=$PATH:$HOME/.local/bin
