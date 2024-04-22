@@ -1,21 +1,3 @@
-  return { -- LSP Configuration & Plugins
-  {
-    'neovim/nvim-lspconfig',
-    dependencies = {
-      -- Automatically install LSPs and related tools to stdpath for Neovim
-      'williamboman/mason.nvim',
-      'williamboman/mason-lspconfig.nvim',
-      'WhoIsSethDaniel/mason-tool-installer.nvim',
-
-      -- Useful status updates for LSP.
-      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {} },
-
-      -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
-      -- used for completion, annotations and signatures of Neovim apis
-      { 'folke/neodev.nvim', opts = {} },
-    },
-    config = function()
       -- Brief aside: **What is LSP?**
       --
       -- LSP is an initialism you've probably heard, but might not understand what it is.
@@ -115,6 +97,16 @@
               callback = vim.lsp.buf.clear_references,
             })
           end
+
+          -- The following autocommand is used to enable inlay hints in your
+          -- code, if the language server you are using supports them
+          --
+          -- This may be unwanted, since they displace some of your code
+          if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+            map('<leader>th', function()
+              vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())
+            end, '[T]oggle Inlay [H]ints')
+          end
         end,
       })
 
@@ -145,7 +137,7 @@
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
-        -- tsserver = {},
+        tsserver = {},
         --
 
         lua_ls = {
@@ -192,6 +184,3 @@
           end,
         },
       }
-    end,
-  },
-  }
