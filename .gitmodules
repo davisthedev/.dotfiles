@@ -1,3 +1,4 @@
 [submodule "nvim"]
+  branch = main
 	path = nvim
 	url = git@github.com:davisthedev/nvim.git
