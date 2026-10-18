@@ -17,6 +17,8 @@ Run it from a GNOME terminal so the GNOME settings step can reach the session.
 - `dot_*`: home dotfiles. `private_dot_ssh/config`: SSH hosts (keys are per-machine and never committed).
 - `packages/`: dnf and flatpak lists, installed by `run_onchange_before_10-packages.sh.tmpl`.
 - `dconf/gnome.ini`: keybindings, appearance, Ptyxis. Loaded by `run_onchange_after_30-gnome.sh.tmpl`.
+- `dot_claude/`: Claude Code global `CLAUDE.md` and personal skills. Settings, MCP servers and
+  credentials stay per-machine (MCP servers are added by hand with `claude mcp add`).
 - `system/nvidia/`: keeps the NVIDIA driver in the initramfs so the LUKS prompt shows on the
   NVIDIA card. Installed only on machines with an NVIDIA driver loaded.
 
