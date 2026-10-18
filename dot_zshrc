@@ -44,8 +44,6 @@ if command -v zoxide &> /dev/null; then
   eval "$(zoxide init zsh)"
 fi
 
-[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
-
 export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
 
