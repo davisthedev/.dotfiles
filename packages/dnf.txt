@@ -1,4 +1,6 @@
 # Installed on every machine. starship and mise come from COPRs (enabled by the install script).
+# Lines starting with @ are dnf groups.
+@development-tools
 zsh
 git
 gh
@@ -19,3 +21,5 @@ gcc-c++
 make
 cmake
 clang
+clang-tools-extra
+lldb

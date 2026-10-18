@@ -11,7 +11,11 @@ for copr in atim/starship jdxcode/mise; do
         || sudo dnf copr enable -y "$copr"
 done
 
-missing=$(comm -23 <(grep -v '^#' "$src/packages/dnf.txt" | sort -u) <(rpm -qa --qf '%{NAME}\n' | sort -u))
+for group in $(grep '^@' "$src/packages/dnf.txt" | cut -c2-); do
+    dnf group list --installed 2>/dev/null | grep -q "^$group " || sudo dnf group install -y "$group"
+done
+
+missing=$(comm -23 <(grep -v -e '^#' -e '^@' "$src/packages/dnf.txt" | sort -u) <(rpm -qa --qf '%{NAME}\n' | sort -u))
 if [ -n "$missing" ]; then
     echo "Installing: $missing"
     sudo dnf install -y $missing
