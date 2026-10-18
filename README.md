@@ -6,7 +6,7 @@ Managed with [chezmoi](https://chezmoi.io). Shared between the Fedora desktop (`
 
 ```bash
 sudo dnf install -y chezmoi
-chezmoi init --apply git@github.com:davisthedev/dotfiles.git
+chezmoi init --apply git@github.com:davisthedev/.dotfiles.git
 ```
 
 Run it from a GNOME terminal so the GNOME settings step can reach the session.
