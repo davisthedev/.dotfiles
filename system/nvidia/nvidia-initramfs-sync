@@ -1,0 +1,16 @@
+#!/usr/bin/bash
+# Rebuild the initramfs for kernels whose NVIDIA kmod exists but isn't in the
+# initramfs yet. akmods builds the kmod after dracut has already run, so new
+# kernels otherwise boot without NVIDIA early KMS (no LUKS prompt on the GPU).
+# Usage: nvidia-initramfs-sync [KVER...]   (default: all installed kernels)
+set -u
+kvers=("$@")
+((${#kvers[@]})) || kvers=($(ls /lib/modules))
+for kver in "${kvers[@]}"; do
+    img=/boot/initramfs-$kver.img
+    [[ -e $img ]] || continue
+    compgen -G "/lib/modules/$kver/extra/nvidia/nvidia.ko*" >/dev/null || continue
+    lsinitrd "$img" 2>/dev/null | grep -q 'extra/nvidia/nvidia\.ko' && continue
+    echo "Adding NVIDIA modules to initramfs for $kver"
+    dracut -f --kver "$kver" "$img"
+done

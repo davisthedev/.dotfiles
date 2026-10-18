@@ -1,0 +1,14 @@
+[user]
+    name = Davis
+    email = davisthedev@protonmail.com
+[push]
+    default = current
+    autoSetupRemote = true
+[pull]
+    rebase = true
+[core]
+    editor = nvim
+    eol = lf
+    autocrlf = false
+[init]
+    defaultBranch = main

@@ -1,0 +1,55 @@
+export ZSH="$HOME/.oh-my-zsh"
+
+# Prompt is handled by Starship (see bottom), so no Oh My Zsh theme.
+ZSH_THEME=""
+
+# Keep zsh-syntax-highlighting LAST for it to work correctly.
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+
+export PATH="$HOME/.local/bin:$PATH"
+
+source $ZSH/oh-my-zsh.sh
+
+# ---- Aliases -----------------------------------------------------------
+
+# File system (Fedora package names: eza, fzf, bat, fd-find)
+alias ls='eza -lh --group-directories-first --icons'
+alias lsa='ls -a'
+alias lt='eza --tree --level=2 --long --icons --git'
+alias lta='lt -a'
+alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
+
+# Directories
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias ll='ls -al'
+
+# Tools
+alias vi='vim'
+alias vim='nvim'
+
+# Git
+alias gcm='git commit -m'
+alias gcam='git commit -a -m'
+alias gcad='git commit -a --amend'
+
+# ---- Tool init ---------------------------------------------------------
+
+if command -v mise &> /dev/null; then
+  eval "$(mise activate zsh)"
+fi
+
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh)"
+fi
+
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+
+export EDITOR="nvim"
+export SUDO_EDITOR="$EDITOR"
+
+# Tokens and other secrets live here, outside the dotfiles repo.
+[ -f "$HOME/.config/zsh/secrets.zsh" ] && source "$HOME/.config/zsh/secrets.zsh"
+
+eval "$(starship init zsh)"

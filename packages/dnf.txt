@@ -1,0 +1,21 @@
+# Installed on every machine. starship and mise come from COPRs (enabled by the install script).
+zsh
+git
+gh
+neovim
+tmux
+mise
+starship
+eza
+fzf
+bat
+fd-find
+ripgrep
+btop
+chezmoi
+stow
+gcc
+gcc-c++
+make
+cmake
+clang

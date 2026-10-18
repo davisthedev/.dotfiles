@@ -1,0 +1,4 @@
+com.bitwarden.desktop
+com.mattjakeman.ExtensionManager
+it.mijorus.gearlever
+org.localsend.localsend_app

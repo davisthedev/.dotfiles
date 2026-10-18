@@ -1,0 +1,25 @@
+#!/usr/bin/bash
+# Re-runs when either list changes:
+# dnf {{ include "packages/dnf.txt" | sha256sum }}
+# flatpak {{ include "packages/flatpak.txt" | sha256sum }}
+set -euo pipefail
+export LC_ALL=C
+src={{ .chezmoi.sourceDir | quote }}
+
+for copr in atim/starship jdxcode/mise; do
+    dnf repo list --enabled 2>/dev/null | grep -q "copr:copr.fedorainfracloud.org:${copr/\//:}" \
+        || sudo dnf copr enable -y "$copr"
+done
+
+missing=$(comm -23 <(grep -v '^#' "$src/packages/dnf.txt" | sort -u) <(rpm -qa --qf '%{NAME}\n' | sort -u))
+if [ -n "$missing" ]; then
+    echo "Installing: $missing"
+    sudo dnf install -y $missing
+fi
+
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+missing=$(comm -23 <(sort -u "$src/packages/flatpak.txt") <(flatpak list --app --columns=application | sort -u))
+if [ -n "$missing" ]; then
+    echo "Installing flatpaks: $missing"
+    flatpak install -y --noninteractive flathub $missing
+fi

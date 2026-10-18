@@ -1,0 +1,10 @@
+[Unit]
+Description=Add freshly built NVIDIA kmods to the initramfs
+After=akmods.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/nvidia-initramfs-sync
+
+[Install]
+WantedBy=multi-user.target

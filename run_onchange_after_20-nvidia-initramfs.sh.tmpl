@@ -1,0 +1,22 @@
+{{- if stat "/proc/driver/nvidia" -}}
+#!/usr/bin/bash
+# NVIDIA machines only. Keeps the NVIDIA driver in the initramfs so the LUKS
+# prompt shows on the NVIDIA card. See system/nvidia/.
+# {{ include "system/nvidia/nvidia.conf" | sha256sum }}
+# {{ include "system/nvidia/99-nvidia-dracut.conf" | sha256sum }}
+# {{ include "system/nvidia/nvidia-initramfs-sync" | sha256sum }}
+# {{ include "system/nvidia/nvidia-initramfs-sync.service" | sha256sum }}
+# {{ include "system/nvidia/akmods@-nvidia-initramfs.conf" | sha256sum }}
+set -euo pipefail
+cd {{ joinPath .chezmoi.sourceDir "system/nvidia" | quote }}
+sudo install -m 0644 nvidia.conf /etc/dracut.conf.d/nvidia.conf
+sudo install -m 0644 99-nvidia-dracut.conf /etc/dracut.conf.d/99-nvidia-dracut.conf
+sudo install -m 0755 nvidia-initramfs-sync /usr/local/sbin/nvidia-initramfs-sync
+sudo install -m 0644 nvidia-initramfs-sync.service /etc/systemd/system/nvidia-initramfs-sync.service
+sudo install -d /etc/systemd/system/akmods@.service.d
+sudo install -m 0644 akmods@-nvidia-initramfs.conf /etc/systemd/system/akmods@.service.d/nvidia-initramfs.conf
+sudo restorecon -R /etc/dracut.conf.d /usr/local/sbin /etc/systemd/system
+sudo systemctl daemon-reload
+sudo systemctl enable nvidia-initramfs-sync.service
+sudo /usr/local/sbin/nvidia-initramfs-sync
+{{ end -}}

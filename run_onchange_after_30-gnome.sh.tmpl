@@ -1,0 +1,9 @@
+#!/usr/bin/bash
+# Re-runs when the settings change: {{ include "dconf/gnome.ini" | sha256sum }}
+# dconf load only sets the keys listed, so other settings are left alone.
+set -euo pipefail
+if [ -z "${DBUS_SESSION_BUS_ADDRESS:-}" ]; then
+    echo "No desktop session; skipping GNOME settings. Run 'chezmoi apply' from a GNOME terminal." >&2
+    exit 1
+fi
+dconf load / < {{ joinPath .chezmoi.sourceDir "dconf/gnome.ini" | quote }}

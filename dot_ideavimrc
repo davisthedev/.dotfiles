@@ -1,0 +1,141 @@
+
+"" .ideavimrc - Davis Sanders
+
+"" Base Settings
+"" ========================================================
+
+set scrolloff=16
+set undolevels=1000
+set linenumber
+set relativenumber
+set nu
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set showmode
+set showcmd
+
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+
+set visualbell
+
+set wrap=false
+set smartindent
+
+set timeoutlen=500
+set updatetime=250
+
+" Use system clipboard
+set clipboard+=unnamed
+set clipboard+=ideaput
+
+let mapleader = " "
+
+
+"" Plugin Settings
+"" ========================================================
+
+set surround
+set highlightedyank
+set sneak
+set nerdtree
+
+" Easymotion settings
+set easymotion
+
+"" Key mappings
+"" ========================================================
+
+inoremap jk <Esc>
+vnoremap jk <Esc>
+
+" Tab navigation
+nnoremap <C-n> :tabnext<CR>
+nnoremap <C-p> :tabprev<CR>
+
+" Pane navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+nnoremap <C-k> <C-w>k
+nnoremap <C-j> <C-w>j
+
+" Jump between methods
+nnoremap [[ <Action>(MethodUp)
+nnoremap ]] <Action>(MethodDown)
+
+" Easy visual indentation
+vnoremap < <gv
+vnoremap > >gv
+
+" Execute macro saved in 'q' register
+nnoremap qj @q
+
+" Popup navigation
+
+inoremap <C-h> <Action>(ParameterInfo)
+
+"" Leader commands
+"" ========================================================
+
+nnoremap <Space>sv :source ~/.ideavimrc<cr>
+
+" Comment lines
+" map <C-/> <action>(CommentByLineComment)
+
+" Open NERDTree (use q to exit)
+map <leader>e :NERDTreeToggle<CR>
+
+" Folding
+map <leader>zc :action CollapseAllRegions<CR>
+map <leader>zo :action ExpandAllRegions<CR>
+
+" Window splits
+map <leader>wv <Action>(SplitVertically)
+map <leader>ws <Action>(SplitHorizontally)
+map <leader>wu <Action>(Unsplit)
+map <leader>wm <Action>(MoveEditorToOppositeTabGroup)
+
+" Display options
+map <C-z> <action>(ToggleDistractionFreeMode)
+map <leader>dz <action>(ToggleZenMode)
+map <leader>df <action>(ToggleFullScreen)
+
+" Actions
+map <leader>am <action>(ShowIntentionActions)
+map <leader>as <action>(SearchEverywhere)
+map <leader>o <action>(ReopenClosedTab)
+map <leader>h :nohl<CR>
+
+" LSP
+map <leader>lf <action>(ReformatCode)
+map <leader>lo <action>(OptimizeImports)
+
+" File navigation
+map <leader>sf <action>(GotoFile)
+map <leader>sg <action>(FindInPath)
+map <leader><leader> <Action>(RecentFiles)
+map <leader>s. <action>(RecentLocations)
+map <leader>sh <action>(FindAction)
+
+" Close active tab
+map <leader>q <action>(CloseContent)
+
+" Refactoring
+map <leader>rn <Action>(RenameElement)
+map <leader>rm <Action>(ExtractMethod)
+map <leader>rv <Action>(IntroduceVariable)
+map <leader>rf <Action>(IntroduceField)
+map <leader>rs <Action>(ChangeSignature)
+map <leader>rr <Action>(Refactorings.QuickListPopupAction)
+
+" Go to code
+nmap <leader>gd <Action>(GotoDeclaration)
+nmap <leader>gy <Action>(GotoTypeDeclaration)
+nmap <leader>gi <Action>(GotoImplementation)
+nmap <leader>gu <Action>(FindUsages)
+nmap <leader>gt <Action>(GotoTest)
+nmap <leader>gb <Action>(Back)
+nmap <leader>gf <Action>(Forward)
