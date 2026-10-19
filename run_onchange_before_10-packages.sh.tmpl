@@ -7,12 +7,12 @@ export LC_ALL=C
 src={{ .chezmoi.sourceDir | quote }}
 
 for copr in atim/starship jdxcode/mise; do
-    dnf repo list --enabled 2>/dev/null | grep -q "copr:copr.fedorainfracloud.org:${copr/\//:}" \
+    dnf repo list --enabled -C 2>/dev/null | grep -q "copr:copr.fedorainfracloud.org:${copr/\//:}" \
         || sudo dnf copr enable -y "$copr"
 done
 
 for group in $(grep '^@' "$src/packages/dnf.txt" | cut -c2-); do
-    dnf group list --installed 2>/dev/null | grep -q "^$group " || sudo dnf group install -y "$group"
+    dnf group list --installed -C 2>/dev/null | grep -q "^$group " || sudo dnf group install -y "$group"
 done
 
 missing=$(comm -23 <(grep -v -e '^#' -e '^@' "$src/packages/dnf.txt" | sort -u) <(rpm -qa --qf '%{NAME}\n' | sort -u))
